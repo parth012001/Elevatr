@@ -9,6 +9,7 @@ import { Select } from '@/components/ui/select'
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Calendar, Plus, LogOut, Home, Settings, BarChart2 } from 'lucide-react'
+import { ChangeEvent } from 'react'
 
 interface Habit {
   id: string
@@ -103,7 +104,9 @@ export default function Dashboard() {
       const data = await response.json()
       if (response.ok) {
         setHabits(habits.map(habit => 
-          habit.id === habitId ? { ...habit, completedToday: data.completedToday } : habit
+          habit.id === habitId
+            ? { ...habit, completedToday: data.completed, streak: data.streak }
+            : habit
         ))
       }
     } catch (error) {
@@ -238,8 +241,7 @@ export default function Dashboard() {
                   <Textarea
                     id="habitDescription"
                     value={habitDescription}
-                    onChange={(e) => setHabitDescription(e.target.value)}
-                    placeholder="Enter habit description"
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setHabitDescription(e.target.value)}
                     className="mt-1"
                   />
                 </div>
@@ -248,7 +250,7 @@ export default function Dashboard() {
                   <Select
                     id="habitFrequency"
                     value={habitFrequency}
-                    onChange={(e) => setHabitFrequency(e.target.value)}
+                    onChange={setHabitFrequency}
                     className="mt-1"
                   >
                     <option value="daily">Daily</option>
@@ -271,39 +273,30 @@ export default function Dashboard() {
           )}
 
           {/* Habits List */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Your Habits</h3>
-            <div className="grid gap-4">
-              {habits.map((habit) => (
-                <Card key={habit.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-gray-900">{habit.name}</h4>
-                      <p className="text-sm text-gray-500">{habit.description}</p>
-                      <div className="mt-2 flex items-center space-x-4">
-                        <span className="text-xs text-gray-500">
-                          {habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {habit.streak} day streak
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      variant={habit.completedToday ? "default" : "outline"}
-                      onClick={() => handleToggleHabit(habit.id)}
-                    >
-                      {habit.completedToday ? 'Completed' : 'Mark Complete'}
-                    </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {habits.map((habit) => (
+              <Card key={habit.id} className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">{habit.name}</h3>
+                    <p className="text-sm text-gray-500">{habit.description}</p>
                   </div>
-                </Card>
-              ))}
-              {habits.length === 0 && (
-                <Card className="p-6 text-center">
-                  <p className="text-gray-500">No habits yet. Create your first habit to get started!</p>
-                </Card>
-              )}
-            </div>
+                  <Button
+                    variant={habit.completedToday ? "primary" : "outline"}
+                    onClick={() => handleToggleHabit(habit.id)}
+                    className={`transition-colors ${
+                      habit.completedToday ? 'bg-green-600 hover:bg-green-700' : ''
+                    }`}
+                  >
+                    {habit.completedToday ? 'Completed' : 'Mark Complete'}
+                  </Button>
+                </div>
+                <div className="flex justify-between items-center text-sm text-gray-500">
+                  <span>{habit.frequency}</span>
+                  <span>🔥 {habit.streak} day streak</span>
+                </div>
+              </Card>
+            ))}
           </div>
         </main>
       </div>
