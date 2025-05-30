@@ -232,22 +232,14 @@ export default function Dashboard() {
           <Flower2 className="h-8 w-8 text-green-400" />
         </div>
         <nav className="flex flex-col gap-8 flex-1 items-center">
-          <button className="group flex flex-col items-center text-gray-400 hover:text-green-500 transition-colors">
+          <button className="group flex flex-col items-center text-green-500 font-bold">
             <Home className="h-6 w-6" />
-            <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Home</span>
-          </button>
-          <button className="group flex flex-col items-center text-gray-400 hover:text-blue-500 transition-colors">
-            <Calendar className="h-6 w-6" />
-            <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Calendar</span>
+            <span className="text-xs mt-1 opacity-100 transition-opacity">Dashboard</span>
           </button>
           <Link href="/stats" className="group flex flex-col items-center text-gray-400 hover:text-yellow-500 transition-colors focus:outline-none">
             <BarChart2 className="h-6 w-6" />
             <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Stats</span>
           </Link>
-          <button className="group flex flex-col items-center text-gray-400 hover:text-purple-500 transition-colors">
-            <Settings className="h-6 w-6" />
-            <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Settings</span>
-          </button>
         </nav>
         <div className="mb-4 mt-auto flex flex-col items-center">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-200 to-blue-200 flex items-center justify-center shadow-playful">
