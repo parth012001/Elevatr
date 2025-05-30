@@ -135,15 +135,15 @@ export default function ProfilePage() {
               <form className="space-y-6" onSubmit={handleSave}>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                  <Input value={name} onChange={e => setName(e.target.value)} required className="mt-1" />
+                  <Input value={name} onChange={e => setName(e.target.value)} required className="mt-1 bg-white text-black placeholder:text-gray-400 border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <Input value={user.email} readOnly className="mt-1 bg-gray-100 cursor-not-allowed" />
+                  <Input value={user.email} readOnly className="mt-1 bg-gray-100 cursor-not-allowed text-gray-400 border border-gray-200" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                  <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Leave blank to keep current password" className="mt-1" />
+                  <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Leave blank to keep current password" className="mt-1 bg-white text-black placeholder:text-gray-400 border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all" />
                 </div>
                 {error && <div className="text-red-500 text-sm text-center">{error}</div>}
                 {success && <div className="text-green-600 text-sm text-center">{success}</div>}
