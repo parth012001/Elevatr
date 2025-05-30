@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress'
 import { Calendar, Plus, LogOut, Home, Settings, BarChart2, Flower2, Pencil, Trash2 } from 'lucide-react'
 import { ChangeEvent } from 'react'
 import confetti from 'canvas-confetti'
+import Link from 'next/link'
 
 interface Habit {
   id: string
@@ -239,10 +240,10 @@ export default function Dashboard() {
             <Calendar className="h-6 w-6" />
             <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Calendar</span>
           </button>
-          <button className="group flex flex-col items-center text-gray-400 hover:text-yellow-500 transition-colors">
+          <Link href="/stats" className="group flex flex-col items-center text-gray-400 hover:text-yellow-500 transition-colors focus:outline-none">
             <BarChart2 className="h-6 w-6" />
             <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Stats</span>
-          </button>
+          </Link>
           <button className="group flex flex-col items-center text-gray-400 hover:text-purple-500 transition-colors">
             <Settings className="h-6 w-6" />
             <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Settings</span>
