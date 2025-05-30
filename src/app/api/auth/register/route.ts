@@ -35,7 +35,6 @@ export async function POST(req: Request) {
     // Generate token
     const token = await generateToken({
       id: user.id,
-      email: user.email,
     })
 
     // Set auth cookie

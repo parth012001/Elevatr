@@ -1,14 +1,15 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getAuthCookie, verifyToken } from '@/lib/auth'
 
-export async function POST(request: Request, context: { params: { id: string } }) {
+export async function POST(request: Request, context: any) {
   try {
     const token = await getAuthCookie()
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const decoded = await verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    const { id: habitId } = await context.params
+    const habitId = context.params.id
     const { reflection } = await request.json()
 
     // Find today's log for this habit and user

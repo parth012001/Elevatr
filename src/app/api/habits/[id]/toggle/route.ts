@@ -4,7 +4,7 @@ import { getAuthCookie, verifyToken } from '@/lib/auth'
 
 export async function POST(
   request: Request,
-  context: { params: { id: string } }
+  context: any
 ) {
   try {
     const token = await getAuthCookie()
@@ -17,8 +17,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-    const params = await context.params
-    const habitId = params.id
+    const habitId = context.params.id
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)

@@ -1,10 +1,11 @@
 import { compare, hash } from 'bcryptjs'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import type { User } from '@/generated/prisma'
 
 // JWT secret key - in production, use a secure environment variable
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key')
 
 // Password hashing
 export async function hashPassword(password: string): Promise<string> {
@@ -19,7 +20,7 @@ export async function verifyPassword(
 }
 
 // JWT token handling
-export async function generateToken(payload: any): Promise<string> {
+export async function generateToken(payload: { id: string }): Promise<string> {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET is not set in the environment')
   }
@@ -30,11 +31,11 @@ export async function generateToken(payload: any): Promise<string> {
     .sign(JWT_SECRET)
 }
 
-export async function verifyToken(token: string): Promise<any> {
+export async function verifyToken(token: string): Promise<{ id: string } | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET)
-    return payload
-  } catch (error) {
+    return payload as { id: string }
+  } catch {
     return null
   }
 }
@@ -51,7 +52,7 @@ export async function setAuthCookie(token: string) {
   })
 }
 
-export async function getAuthCookie(): Promise<string | undefined> {
+export async function getAuthCookie() {
   const cookieStore = await cookies()
   return cookieStore.get('auth-token')?.value
 }
@@ -66,4 +67,6 @@ export async function getAuthUser(req: NextRequest) {
   const token = req.cookies.get('auth-token')?.value
   if (!token) return null
   return await verifyToken(token)
-} 
+}
+
+export type AuthUser = Pick<User, 'id' | 'email' | 'name' | 'image'> 

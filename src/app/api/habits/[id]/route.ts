@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getAuthCookie, verifyToken } from '@/lib/auth'
 
-export async function PATCH(request: Request, context: { params: { id: string } }) {
+export async function PATCH(request: Request, context: any) {
   try {
     const token = await getAuthCookie()
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const decoded = await verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
-    const { id } = await context.params
+    const id = context.params.id
     const body = await request.json()
     const { name, description, frequency } = body
 
@@ -31,14 +31,14 @@ export async function PATCH(request: Request, context: { params: { id: string } 
   }
 }
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+export async function DELETE(request: Request, context: any) {
   try {
     const token = await getAuthCookie()
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const decoded = await verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
-    const { id } = await context.params
+    const id = context.params.id
     // Delete all logs for this habit first (if using referential integrity)
     await prisma.habitLog.deleteMany({ where: { habitId: id } })
     await prisma.habit.delete({ where: { id, userId: decoded.id } })
