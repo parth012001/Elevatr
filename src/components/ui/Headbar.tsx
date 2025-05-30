@@ -63,6 +63,7 @@ export function Headbar() {
       <nav className="flex gap-6 items-center">
         <Link href="/dashboard" className={`text-base font-medium px-3 py-1 rounded transition-colors ${pathname === "/dashboard" ? "text-green-700 bg-green-100 shadow-sm" : "text-blue-700 hover:text-green-600 hover:bg-green-50"}`}>Dashboard</Link>
         <Link href="/stats" className={`text-base font-medium px-3 py-1 rounded transition-colors ${pathname === "/stats" ? "text-green-700 bg-green-100 shadow-sm" : "text-blue-700 hover:text-green-600 hover:bg-green-50"}`}>Stats</Link>
+        <Link href="/journal" className={`text-base font-medium px-3 py-1 rounded transition-colors ${pathname === "/journal" ? "text-green-700 bg-green-100 shadow-sm" : "text-blue-700 hover:text-green-600 hover:bg-green-50"}`}>Journal History</Link>
       </nav>
       {/* User Profile Dropdown */}
       <div className="relative" ref={dropdownRef}>

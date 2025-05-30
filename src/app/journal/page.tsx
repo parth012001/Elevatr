@@ -114,7 +114,7 @@ export default function JournalPage() {
             <span className="ml-2 text-green-700 font-bold">{weekProgress}/{daysToShow}</span>
           </div>
         </div>
-        <Card className="p-8 shadow-playful bg-gradient-to-br from-green-50 to-blue-50 animate-fade-in">
+        <Card className="p-8 pb-16 shadow-playful bg-gradient-to-br from-green-50 to-blue-50 animate-fade-in">
           <div className="flex justify-between items-center mb-8">
             <button
               className="p-2 rounded-full bg-green-100 hover:bg-green-200 text-green-700"
@@ -144,8 +144,8 @@ export default function JournalPage() {
               <ChevronRight className="h-6 w-6" />
             </button>
           </div>
-          <div className="overflow-x-auto">
-            <div className="grid grid-cols-7 gap-8 min-w-[900px]">
+          <div className="overflow-x-auto px-4">
+            <div className="grid grid-cols-7 gap-8 min-w-[900px] pb-8">
               {weekDays.map((wd, i) => (
                 <div key={wd} className="text-center text-gray-500 font-semibold text-lg mb-2">{wd}</div>
               ))}
