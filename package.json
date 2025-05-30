@@ -15,6 +15,7 @@
     "@radix-ui/react-select": "^2.2.5",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
+    "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "jose": "^6.0.11",
     "lucide-react": "^0.511.0",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-gradient: linear-gradient(135deg, #e0ecfc 0%, #e9f9ec 100%);
+  --background: #e0ecfc;
+  --foreground: #2D3748;
+  --primary: #6FCF97;
+  --accent-blue: #56CCF2;
+  --accent-yellow: #F2C94C;
+  --accent-pink: #F299C9;
+  --accent-lavender: #BB6BD9;
+  --card-shadow: 0 4px 24px 0 rgba(111, 207, 151, 0.08), 0 1.5px 6px 0 rgba(86, 204, 242, 0.08);
 }
 
 @theme inline {
@@ -20,7 +27,33 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--background-gradient);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+  background: #fff;
+  box-shadow: var(--card-shadow);
+  border-radius: 1rem;
+}
+
+.button-primary {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 0.5rem;
+  transition: background 0.2s;
+}
+.button-primary:hover {
+  background: var(--accent-blue);
+}
+
+/* Add playful accent colors for badges, icons, etc. */
+.badge-yellow { background: var(--accent-yellow); color: #fff; }
+.badge-pink { background: var(--accent-pink); color: #fff; }
+.badge-lavender { background: var(--accent-lavender); color: #fff; }
+
+/* Soft shadow for playful effect */
+.shadow-playful {
+  box-shadow: 0 8px 32px 0 rgba(86, 204, 242, 0.12), 0 2px 8px 0 rgba(111, 207, 151, 0.10);
 }
