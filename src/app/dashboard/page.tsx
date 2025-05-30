@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
@@ -52,6 +52,11 @@ export default function Dashboard() {
   const [deleting, setDeleting] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [showReflection, setShowReflection] = useState(false)
+  const [reflectionHabitId, setReflectionHabitId] = useState<string | null>(null)
+  const [reflectionText, setReflectionText] = useState('')
+  const [reflectionLoading, setReflectionLoading] = useState(false)
+  const reflectionInputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -140,6 +145,10 @@ export default function Dashboard() {
                 origin: { y: 0.7 },
                 colors: ['#6FCF97', '#56CCF2', '#F2C94C', '#F299C9', '#BB6BD9']
               })
+              // Show reflection modal
+              setReflectionHabitId(habitId)
+              setShowReflection(true)
+              setTimeout(() => reflectionInputRef.current?.focus(), 200)
             }
             return { ...habit, completedToday: data.completed, streak: data.streak }
           }
@@ -214,6 +223,36 @@ export default function Dashboard() {
     } finally {
       setDeleting(false)
     }
+  }
+
+  // Save reflection
+  const handleSaveReflection = async () => {
+    if (!reflectionHabitId || !reflectionText.trim()) {
+      setShowReflection(false)
+      setReflectionText('')
+      setReflectionHabitId(null)
+      return
+    }
+    setReflectionLoading(true)
+    try {
+      const response = await fetch(`/api/habits/${reflectionHabitId}/reflection`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reflection: reflectionText })
+      })
+      // Ignore response for now, just close modal
+    } catch (err) {}
+    setShowReflection(false)
+    setReflectionText('')
+    setReflectionHabitId(null)
+    setReflectionLoading(false)
+  }
+
+  // Skip reflection
+  const handleSkipReflection = () => {
+    setShowReflection(false)
+    setReflectionText('')
+    setReflectionHabitId(null)
   }
 
   if (isLoading) {
@@ -478,6 +517,42 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Reflection Modal */}
+        {showReflection && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fade-in">
+              <h3 className="text-xl font-bold mb-4 text-center text-green-700">Reflection</h3>
+              <p className="mb-2 text-gray-700 text-center">How did you feel after completing this habit?</p>
+              <textarea
+                ref={reflectionInputRef}
+                className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-green-300"
+                rows={3}
+                maxLength={200}
+                value={reflectionText}
+                onChange={e => setReflectionText(e.target.value)}
+                placeholder="Write a short reflection..."
+                disabled={reflectionLoading}
+              />
+              <div className="flex justify-end gap-3">
+                <button
+                  className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium"
+                  onClick={handleSkipReflection}
+                  disabled={reflectionLoading}
+                >
+                  Skip
+                </button>
+                <button
+                  className="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold shadow"
+                  onClick={handleSaveReflection}
+                  disabled={reflectionLoading || !reflectionText.trim()}
+                >
+                  {reflectionLoading ? 'Saving...' : 'Save'}
+                </button>
+              </div>
             </div>
           </div>
         )}
