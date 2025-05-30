@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { Flower2, TrendingUp, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { Headbar } from '@/components/ui/Headbar'
 
 const COLORS = ["#6FCF97", "#56CCF2", "#F2C94C", "#F299C9", "#BB6BD9"]
 
@@ -48,23 +49,7 @@ export default function StatsPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-50 to-green-50 pb-10 px-2">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-20 w-full bg-gradient-to-r from-green-100 via-blue-100 to-green-50 shadow-md py-6 mb-8 flex flex-col items-center">
-        <div className="w-full max-w-3xl flex items-center mb-4">
-          <Link href="/dashboard" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-blue-100 text-blue-700 font-semibold shadow transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-            Back to Dashboard
-          </Link>
-        </div>
-        <div className="flex items-center gap-3 mb-2">
-          <Flower2 className="h-8 w-8 text-green-400" />
-          <h1 className="text-3xl font-extrabold text-blue-700 tracking-tight">Your Habit Stats</h1>
-        </div>
-        <div className="text-blue-500 text-lg flex items-center gap-2 font-medium">
-          <TrendingUp className="h-5 w-5 text-yellow-400" />
-          <span>See your growth and celebrate your progress!</span>
-        </div>
-      </header>
+      <Headbar />
       <div className="w-full max-w-3xl flex flex-col gap-10">
         {/* Growth Visual */}
         <div className="flex flex-col items-center mb-2 animate-fade-in">

@@ -12,6 +12,7 @@ import { Calendar, Plus, LogOut, Home, Settings, BarChart2, Flower2, Pencil, Tra
 import { ChangeEvent } from 'react'
 import confetti from 'canvas-confetti'
 import Link from 'next/link'
+import { Headbar } from '@/components/ui/Headbar'
 
 interface Habit {
   id: string
@@ -57,6 +58,7 @@ export default function Dashboard() {
   const [reflectionText, setReflectionText] = useState('')
   const [reflectionLoading, setReflectionLoading] = useState(false)
   const reflectionInputRef = useRef<HTMLTextAreaElement>(null)
+  const [userImage, setUserImage] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +69,9 @@ export default function Dashboard() {
         if (userData.name) {
           setUserName(userData.name)
         }
-
+        if (userData.image) {
+          setUserImage(userData.image)
+        }
         // Fetch habits
         const habitsResponse = await fetch('/api/habits')
         const habitsData = await habitsResponse.json()
@@ -264,34 +268,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-blue-50 to-green-50">
-      {/* Sidebar: slim, icons only */}
-      <aside className="w-20 flex flex-col items-center py-8 bg-white shadow-lg border-r border-gray-100">
-        <div className="mb-8">
-          <Flower2 className="h-8 w-8 text-green-400" />
-        </div>
-        <nav className="flex flex-col gap-8 flex-1 items-center">
-          <button className="group flex flex-col items-center text-green-500 font-bold">
-            <Home className="h-6 w-6" />
-            <span className="text-xs mt-1 opacity-100 transition-opacity">Dashboard</span>
-          </button>
-          <Link href="/stats" className="group flex flex-col items-center text-gray-400 hover:text-yellow-500 transition-colors focus:outline-none">
-            <BarChart2 className="h-6 w-6" />
-            <span className="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Stats</span>
-          </Link>
-        </nav>
-        <div className="mb-4 mt-auto flex flex-col items-center">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-200 to-blue-200 flex items-center justify-center shadow-playful">
-            <span className="text-lg font-semibold text-green-700">{userName[0]}</span>
-          </div>
-          <button className="mt-4 text-gray-400 hover:text-red-500 transition-colors" onClick={handleLogout}>
-            <LogOut className="h-6 w-6" />
-          </button>
-        </div>
-      </aside>
-
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-green-50">
+      <Headbar />
       {/* Main Content: centered, single column */}
-      <main className="flex-1 flex flex-col items-center px-4 sm:px-0 py-10">
+      <main className="flex-1 flex flex-col items-center px-4 sm:px-0 py-10 relative">
         {/* Motivational Quote */}
         <div className="w-full max-w-xl mb-8">
           <div className="px-6 py-4 rounded-2xl bg-gradient-to-r from-green-100 via-blue-100 to-green-50 shadow-playful text-lg font-semibold text-blue-700 animate-fade-in flex items-center gap-3">
@@ -390,7 +370,7 @@ export default function Dashboard() {
 
         {/* Add Habit Modal */}
         {showCreateForm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-white/60">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fade-in">
               <h3 className="text-xl font-bold mb-4 text-center text-green-700">Add a New Habit</h3>
               <form onSubmit={handleCreateHabit} className="space-y-4">
@@ -402,7 +382,7 @@ export default function Dashboard() {
                     onChange={(e) => setHabitName(e.target.value)}
                     required
                     placeholder="Enter habit name"
-                    className="mt-1"
+                    className="mt-1 bg-white text-black placeholder:text-black"
                   />
                 </div>
                 <div>
@@ -411,7 +391,7 @@ export default function Dashboard() {
                     id="habitDescription"
                     value={habitDescription}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setHabitDescription(e.target.value)}
-                    className="mt-1"
+                    className="mt-1 bg-white text-black placeholder:text-black"
                   />
                 </div>
                 <div>
@@ -420,7 +400,7 @@ export default function Dashboard() {
                     id="habitFrequency"
                     value={habitFrequency}
                     onChange={setHabitFrequency}
-                    className="mt-1"
+                    className="mt-1 bg-white text-black"
                   >
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -444,7 +424,7 @@ export default function Dashboard() {
 
         {/* Edit Habit Modal */}
         {editingHabit && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-white/60">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fade-in">
               <h3 className="text-xl font-bold mb-4 text-center text-blue-700">Edit Habit</h3>
               <form className="space-y-4" onSubmit={handleEditSave}>
@@ -505,7 +485,7 @@ export default function Dashboard() {
               </form>
               {/* Delete Confirmation Dialog */}
               {deleteConfirm && (
-                <div className="fixed inset-0 z-60 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="fixed inset-0 z-60 flex items-center justify-center backdrop-blur bg-white/60">
                   <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xs text-center">
                     <p className="mb-4 text-lg text-gray-700">Are you sure you want to delete this habit?</p>
                     <div className="flex justify-center gap-4">
@@ -523,13 +503,13 @@ export default function Dashboard() {
 
         {/* Reflection Modal */}
         {showReflection && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-white/60">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md animate-fade-in">
               <h3 className="text-xl font-bold mb-4 text-center text-green-700">Reflection</h3>
               <p className="mb-2 text-gray-700 text-center">How did you feel after completing this habit?</p>
               <textarea
                 ref={reflectionInputRef}
-                className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-green-300"
+                className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-green-300 text-gray-800 placeholder-gray-400"
                 rows={3}
                 maxLength={200}
                 value={reflectionText}
