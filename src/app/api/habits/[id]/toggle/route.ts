@@ -17,7 +17,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-    const habitId = context.params.id
+    const { id: habitId } = await context.params
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)

@@ -51,6 +51,8 @@ export default function StatsPage() {
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-50 to-green-50 pb-10 px-2">
       <Headbar />
       <div className="w-full max-w-3xl flex flex-col gap-10">
+        {/* Spacer for headbar separation */}
+        <div className="mt-8" />
         {/* Growth Visual */}
         <div className="flex flex-col items-center mb-2 animate-fade-in">
           <div className="mb-2">

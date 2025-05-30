@@ -9,7 +9,7 @@ export async function POST(request: Request, context: any) {
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const decoded = await verifyToken(token)
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    const habitId = context.params.id
+    const { id: habitId } = await context.params
     const { reflection } = await request.json()
 
     // Find today's log for this habit and user
