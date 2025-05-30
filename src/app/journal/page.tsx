@@ -171,23 +171,23 @@ export default function JournalPage() {
                       {/* No content for days with no data */}
                     </div>
                     {hasData ? (
-                      <>
+                      <div className="flex flex-col gap-2 w-full items-center mt-auto mb-1">
                         <button
-                          className="mt-auto mb-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-400 to-green-400 text-white font-semibold shadow hover:scale-105 transition-transform flex items-center gap-2"
+                          className="w-[120px] py-1.5 rounded-lg bg-gradient-to-r from-blue-400 to-green-400 text-white font-medium shadow hover:scale-105 transition-transform flex items-center justify-center gap-1 text-sm"
                           onClick={() => setJournalModal({ open: true, logs: day ? day.habits : [], date: key })}
                         >
-                          <NotebookPen className="h-5 w-5" />
+                          <NotebookPen className="h-4 w-4" />
                           View Details
                         </button>
                         <button
-                          className="px-4 py-2 rounded-full bg-gradient-to-r from-green-400 to-blue-400 text-white font-semibold shadow hover:scale-105 transition-transform flex items-center gap-2"
+                          className="w-[120px] py-1.5 rounded-lg bg-gradient-to-r from-green-400 to-blue-400 text-white font-medium shadow hover:scale-105 transition-transform flex items-center justify-center gap-1 text-sm"
                           onClick={() => setCompletedModal({ open: true, habits: day.habits.filter(h => h.completed).map(h => h.habitName), date: key })}
                           disabled={day.habits.filter(h => h.completed).length === 0}
                         >
-                          <CheckCircle className="h-5 w-5" />
-                          Completed Habits
+                          <CheckCircle className="h-4 w-4" />
+                          Completed
                         </button>
-                      </>
+                      </div>
                     ) : null}
                   </div>
                 )
